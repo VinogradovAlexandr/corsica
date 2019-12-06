@@ -649,8 +649,13 @@ defmodule Corsica do
   end
 
   def allowed_origin?(conn, %Options{origins: origins}) do
+    IO.inspect(origins, label: "*** allowed origins from cors options: ")
+    IO.inspect(conn, label: "*** conn from plug: ")
     [origin | _] = get_req_header(conn, "origin")
-    Enum.any?(List.wrap(origins), &matching_origin?(&1, origin))
+    IO.inspect(origin)
+    result = Enum.any?(List.wrap(origins), &matching_origin?(&1, origin))
+    IO.inspect(result, label: "Result of checking: ")
+    result
   end
 
   defp matching_origin?(origin, origin), do: true
